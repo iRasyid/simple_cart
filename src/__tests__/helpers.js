@@ -2,11 +2,12 @@ const {
     incrementQty,
     decrementQty,
     recalculateSubtotal,
-    recalculateTotal
+    recalculateTotal,
+    calculateChange
 } = require("../helpers");
 
-// test realtime harga dan qty harus numeric dan positif
-// test harga atau qty bernilai nol atau negatif, Subtotal Invalid Input of Price & Qty
+// test realtime price, qty, dan money harus numeric dan positif
+// test price, qty, atau money bernilai nol atau negatif, Subtotal Invalid Input of Price & Qty
 
 test("qty 1 ditambah 1 sama dengan 2", () => {
     expect(incrementQty(1)).toBe(2);
@@ -59,4 +60,28 @@ test("qty 1 dikali harga 50000 dengan Kode Promo KODE75 sama dengan 12500", () =
 })
 test("qty 1 dikali harga 50000 dengan Kode Promo Rasyid (kode promo acak) sama dengan 50000 (tanpa diskon)", () => {
     expect(recalculateTotal(50000, "Rasyid")).toBe(50000);
+})
+test("qty 1 dikali harga 50000 dibayar 75000 | total < uang", () => {
+    expect(calculateChange(75000, 50000)).toBe(25000);
+})
+test("qty 1 dikali harga 50000 dibayar 50000 | total = uang", () => {
+    expect(calculateChange(50000, 50000)).toBe(0);
+})
+test("qty 1 dikali harga 50000 dibayar 25000 | total > uang", () => {
+    expect(calculateChange(25000, 50000)).toBe("Not enough money");
+})
+test("qty 1 dikali harga 50000 dibayar '100000' | total > uang (string)", () => {
+    expect(calculateChange("100000", 50000)).toBe(50000);
+})
+test("qty 1 dikali harga '50000' dibayar 100000 | total (string) > uang", () => {
+    expect(calculateChange(100000, "50000")).toBe(50000);
+})
+test("qty 1 dikali harga '50000' dibayar '100000' | total (string) > uang (string)", () => {
+    expect(calculateChange("100000", "50000")).toBe(50000);
+})
+test("qty 1 dikali harga 50000 dibayar -100000 | total > uang (negative)", () => {
+    expect(calculateChange(-100000, 50000)).toBe("Invalid Input");
+})
+test("qty 1 dikali harga 50000 dibayar 'Seratus Ribu' | total > uang (string ejaan)", () => {
+    expect(calculateChange("Seratus Ribu", "50000")).toBe("Invalid Input");
 })

@@ -4,3 +4,6 @@ Aplikasi cart sederhana. Disadur dan dimodifikasi dari [https://github.com/kodei
 # Acknowledgment
 [Riza Fahmi](https://github.com/rizafahmi)
 
+# Tester
+[Abdurrasyid Muhasibi](https://github.com/iRasyid)
+

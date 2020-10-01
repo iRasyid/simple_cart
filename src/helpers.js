@@ -33,16 +33,30 @@ const recalculateTotal = (subtotal, codeInput) => {
     if ((String(codeInput).substring(0, 4)) == "KODE" && String(codeInput).length == 6) {
         let discount = String(codeInput).substring(4, 6);
         if (discount == 25 || discount == 50 || discount == 75) {
-          return subtotal - (subtotal * parseInt(discount) / 100);
+            return subtotal - (subtotal * parseInt(discount) / 100);
         }
-      } else {
+    } else {
         return subtotal;
-      }
+    }
 };
+const calculateChange = (money, total) => {
+    let moneyInt = parseInt(money);
+    let totalInt = parseInt(total);
+    if (Math.sign(moneyInt) == -1 || Math.sign(totalInt) == -1 || isNaN(moneyInt) || isNaN(totalInt)) {
+        return "Invalid Input";
+    } else {
+        if (moneyInt < totalInt) {
+            return "Not enough money"
+        } else {
+            return moneyInt - totalInt;
+        }
+    }
+}
 
 module.exports = {
     incrementQty,
     decrementQty,
     recalculateSubtotal,
-    recalculateTotal
+    recalculateTotal,
+    calculateChange
 };

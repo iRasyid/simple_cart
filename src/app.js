@@ -2,16 +2,20 @@ import {
   incrementQty,
   decrementQty,
   recalculateSubtotal,
-  recalculateTotal
+  recalculateTotal,
+  calculateChange
 } from './helpers.js';
 
 const priceInput = document.querySelector('#price');
 const qtyInput = document.querySelector('#qty');
 const codeInput = document.querySelector('#code');
+const moneyInput = document.querySelector('#money');
 const incrButton = document.querySelector('#incr');
 const decrButton = document.querySelector('#decr');
 const confirmButton = document.querySelector('#confirmButton');
+const payButton = document.querySelector('#payButton');
 const subtotalText = document.querySelector('#subtotal');
+const changeText = document.querySelector('#change');
 
 const calculateSubtotal = () => {
   let subtotal = recalculateSubtotal(qty.value, price.value);
@@ -35,7 +39,13 @@ confirmButton.addEventListener('click', () => {
     subtotalText.textContent = "Invalid Input";
   }
   let subtotal = recalculateSubtotal(qty.value, price.value);
-  // alert(codeInput.value);
   let total = recalculateTotal(subtotal, codeInput.value);
   subtotalText.textContent = `Rp. ${total}`;
+})
+
+payButton.addEventListener('click', () => {
+  let subtotal = recalculateSubtotal(qty.value, price.value);
+  let total = recalculateTotal(subtotal, codeInput.value);
+  let change = calculateChange(moneyInput.value, total);
+  changeText.textContent = `Rp. ${change}`;
 })
